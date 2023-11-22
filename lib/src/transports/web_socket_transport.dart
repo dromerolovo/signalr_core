@@ -51,7 +51,9 @@ class WebSocketTransport implements Transport {
       final token = await _accessTokenFactory!();
       if (token!.isNotEmpty) {
         final encodedToken = Uri.encodeComponent(token);
-        url = url! + (url.contains('?') ? '&' : '?') + 'access_token=$encodedToken';
+        url = url! +
+            (url.contains('?') ? '&' : '?') +
+            'access_token=$encodedToken';
       }
     }
 
@@ -60,7 +62,9 @@ class WebSocketTransport implements Transport {
 
     url = url!.replaceFirst(RegExp(r'^http'), 'ws');
 
-    _channel = await platform.connect(Uri.parse(url), client: _client!);
+    var token = await _accessTokenFactory!();
+    _channel =
+        await platform.connect(Uri.parse(url), client: _client!, token: token);
 
     _logging!(LogLevel.information, 'WebSocket connected to $url.');
     opened = true;

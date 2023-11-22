@@ -10,6 +10,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 Future<WebSocketChannel> connect(
   Uri uri, {
+  String? token,
   required BaseClient client,
 }) async {
   var random = Random();
@@ -34,6 +35,7 @@ Future<WebSocketChannel> connect(
   var request = Request('GET', wsUri)
     ..headers.addAll({
       'Connection': 'Upgrade',
+      'Authorization': 'Bearer $token',
       'Upgrade': 'websocket',
       'Sec-WebSocket-Key': nonce,
       'Cache-Control': 'no-cache',
